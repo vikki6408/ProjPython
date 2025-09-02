@@ -4,6 +4,9 @@ TITLE = 'Pac-Man'
 CASE_SIZE = 18
 WIDTH, HEIGHT = 28, 32
 
+#pacman image
+IMG = pygame.image.load('assets/images/pacman.png')
+
 SCREEN = pygame.display.set_mode((WIDTH * CASE_SIZE, HEIGHT * CASE_SIZE))
 
 # Couleurs

@@ -9,8 +9,7 @@ pygame.init()
 
 pygame.display.set_caption("Pac-Man")
 
-img = pygame.image.load('assets/images/pacman.png')
-IMAGE_SMALL = pygame.transform.scale(img, (CASE_SIZE, CASE_SIZE))
+IMAGE_SMALL = pygame.transform.scale(IMG, (CASE_SIZE, CASE_SIZE))
 
 running = True
 
