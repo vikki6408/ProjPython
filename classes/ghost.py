@@ -11,15 +11,19 @@ class Ghost(pygame.sprite.Sprite):
         self.case_size = case_size
         self.last_dir = None  # Nouvelle variable
 
+    # Déplacement aléatoire
     def move(self, maze, Wall):
         directions = [(-1,0), (1,0), (0,-1), (0,1)]
+
+        # On évite le mouvement inverse
         if self.last_dir:
-            # On évite le mouvement inverse
             directions.remove((-self.last_dir[0], -self.last_dir[1]))
-        random.shuffle(directions)
+            random.shuffle(directions)
+
         for dx, dy in directions:
             new_x = self.x + dx
             new_y = self.y + dy
+            # Vérifie les limites du labyrinthe
             if not isinstance(maze[new_y][new_x], Wall):
                 self.x, self.y = new_x, new_y
                 self.rect.topleft = (self.case_size * self.x, self.case_size * self.y)

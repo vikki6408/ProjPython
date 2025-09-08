@@ -4,19 +4,18 @@ from classes.ghost import *
 
 # pygame setup
 pygame.init()
-
 pygame.display.set_caption("Pac-Man")
+clock = pygame.time.Clock()
+running = True
 
 # Redimension de pacman
 IMG_PACMAN_SMALL = pygame.transform.scale(IMG_PACMAN, (CASE_SIZE, CASE_SIZE))
+
 # Redimension des fantômes
 IMG_GHOSTBLUE_SMALL = pygame.transform.scale(IMG_GHOSTBLUE, (CASE_SIZE, CASE_SIZE))
 IMG_GHOSTRED_SMALL = pygame.transform.scale(IMG_GHOSTRED, (CASE_SIZE, CASE_SIZE))
 IMG_GHOSTPINK_SMALL = pygame.transform.scale(IMG_GHOSTPINK, (CASE_SIZE, CASE_SIZE))
 IMG_GHOSTORANGE_SMALL = pygame.transform.scale(IMG_GHOSTORANGE, (CASE_SIZE, CASE_SIZE))
-
-clock = pygame.time.Clock()
-running = True
 
 # Création des fantômes
 ghosts = [
@@ -46,6 +45,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    # Gestion des déplacements de Pacman
     new_x, new_y = pacman_x, pacman_y
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
@@ -56,6 +56,12 @@ while running:
         new_y -= 1
     elif keys[pygame.K_DOWN]:
         new_y += 1
+
+    # Vérifie si Pacman mange un pellet
+    if isinstance(maze[pacman_y][pacman_x], Pellet):
+        maze[pacman_y][pacman_x] = Empty()
+        # score += 1  # (optionnel, si tu as une variable score)
+
     # Vérifie que la case n'est pas un mur
     if not isinstance(maze[new_y][new_x], Wall):
         pacman_x, pacman_y = new_x, new_y
