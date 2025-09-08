@@ -1,4 +1,3 @@
-import eg
 import pygame
 import os
 
