@@ -4,6 +4,9 @@ TITLE = 'Pac-Man'
 CASE_SIZE = 18
 WIDTH, HEIGHT = 28, 32
 
+# Position initiale de Pac-Man
+pacman_x, pacman_y = 13, 23
+
 #pacman image
 IMG = pygame.image.load('assets/images/pacman.png')
 
