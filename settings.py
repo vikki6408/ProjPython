@@ -6,9 +6,20 @@ WIDTH, HEIGHT = 28, 32
 
 # Position initiale de Pac-Man
 pacman_x, pacman_y = 13, 23
+# Position initiale des fantômes
+ghostBlue_start_x, ghostBlue_start_y = 11, 14
+ghostRed_start_x, ghostRed_start_y = 13, 11
+ghostPink_start_x, ghostPink_start_y = 13, 14
+ghostOrange_start_x, ghostOrange_start_y = 15, 14
 
 #pacman image
-IMG = pygame.image.load('assets/images/pacman.png')
+IMG_PACMAN = pygame.image.load('assets/images/pacman.png')
+
+#ghosts image
+IMG_GHOSTBLUE = pygame.image.load('assets/images/ghostBlue.png')
+IMG_GHOSTRED = pygame.image.load('assets/images/ghostRed.png')
+IMG_GHOSTPINK = pygame.image.load('assets/images/ghostPink.png')
+IMG_GHOSTORANGE = pygame.image.load('assets/images/ghostOrange.png')
 
 SCREEN = pygame.display.set_mode((WIDTH * CASE_SIZE, HEIGHT * CASE_SIZE))
 

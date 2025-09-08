@@ -1,17 +1,19 @@
-import pygame
-from pygame import key
-
 from settings import *
 from classes.tile import *
-
-#from classes.mazeClass import initMaze
 
 # pygame setup
 pygame.init()
 
 pygame.display.set_caption("Pac-Man")
 
-IMAGE_SMALL = pygame.transform.scale(IMG, (CASE_SIZE, CASE_SIZE))
+# Redimension de pacman
+IMG_PACMAN_SMALL = pygame.transform.scale(IMG_PACMAN, (CASE_SIZE, CASE_SIZE))
+# Redimension des fantômes
+IMG_GHOSTBLUE_SMALL = pygame.transform.scale(IMG_GHOSTBLUE, (CASE_SIZE, CASE_SIZE))
+IMG_GHOSTRED_SMALL = pygame.transform.scale(IMG_GHOSTRED, (CASE_SIZE, CASE_SIZE))
+IMG_GHOSTPINK_SMALL = pygame.transform.scale(IMG_GHOSTPINK, (CASE_SIZE, CASE_SIZE))
+IMG_GHOSTORANGE_SMALL = pygame.transform.scale(IMG_GHOSTORANGE, (CASE_SIZE, CASE_SIZE))
+
 clock = pygame.time.Clock()
 running = True
 
@@ -53,8 +55,13 @@ while running:
     for y, line in enumerate(maze):
         for x, case in enumerate(line):
             case.draw(x, y)
+    # Affichage des sprites
+    SCREEN.blit(IMG_PACMAN_SMALL, (CASE_SIZE * pacman_x, CASE_SIZE * pacman_y))
+    SCREEN.blit(IMG_GHOSTBLUE_SMALL, (CASE_SIZE * ghostBlue_start_x, CASE_SIZE * ghostBlue_start_y))
+    SCREEN.blit(IMG_GHOSTRED_SMALL, (CASE_SIZE * ghostRed_start_x, CASE_SIZE * ghostRed_start_y))
+    SCREEN.blit(IMG_GHOSTPINK_SMALL, (CASE_SIZE * ghostPink_start_x, CASE_SIZE * ghostPink_start_y))
+    SCREEN.blit(IMG_GHOSTORANGE_SMALL, (CASE_SIZE * ghostOrange_start_x, CASE_SIZE * ghostOrange_start_y))
 
-    SCREEN.blit(IMAGE_SMALL, (CASE_SIZE * pacman_x, CASE_SIZE * pacman_y))
     pygame.display.flip()
     clock.tick(6)
 pygame.quit()
