@@ -6,6 +6,9 @@ from classes.ghost import *
 pygame.init()
 pygame.display.set_caption("Pac-Man")
 clock = pygame.time.Clock()
+count = 1
+start_ticks=pygame.time.get_ticks()
+
 running = True
 
 # Redimension de pacman
@@ -17,13 +20,21 @@ IMG_GHOSTRED_SMALL = pygame.transform.scale(IMG_GHOSTRED, (CASE_SIZE, CASE_SIZE)
 IMG_GHOSTPINK_SMALL = pygame.transform.scale(IMG_GHOSTPINK, (CASE_SIZE, CASE_SIZE))
 IMG_GHOSTORANGE_SMALL = pygame.transform.scale(IMG_GHOSTORANGE, (CASE_SIZE, CASE_SIZE))
 
+
+ghost1 = Ghost(ghostBlue_start_x, ghostBlue_start_y, IMG_GHOSTBLUE_SMALL, CASE_SIZE)
+ghost2 =  Ghost(ghostRed_start_x, ghostRed_start_y, IMG_GHOSTRED_SMALL, CASE_SIZE)
+ghost3 = Ghost(ghostPink_start_x, ghostPink_start_y, IMG_GHOSTPINK_SMALL, CASE_SIZE)
+ghost4 = Ghost(ghostOrange_start_x, ghostOrange_start_y, IMG_GHOSTORANGE_SMALL, CASE_SIZE)
+
 # Création des fantômes
 ghosts = [
-    Ghost(ghostBlue_start_x, ghostBlue_start_y, IMG_GHOSTBLUE_SMALL, CASE_SIZE),
-    Ghost(ghostRed_start_x, ghostRed_start_y, IMG_GHOSTRED_SMALL, CASE_SIZE),
-    Ghost(ghostPink_start_x, ghostPink_start_y, IMG_GHOSTPINK_SMALL, CASE_SIZE),
-    Ghost(ghostOrange_start_x, ghostOrange_start_y, IMG_GHOSTORANGE_SMALL, CASE_SIZE),
+    ghost1,
+    ghost2,
+    ghost3,
+    ghost4
 ]
+
+
 
 # Labyrinthe (1 = mur, 0 = chemin, 2 = porte des fantômes)
 maze = []
@@ -45,6 +56,24 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    seconds = (pygame.time.get_ticks() - start_ticks) / 1000
+    print(seconds)
+
+    if count == 1:
+        if seconds > 8:  # if more than 10 seconds close the game
+            ghost1.x = 13
+            ghost1.y = 11
+            count += 1
+    if count == 2:
+        if seconds > 17:
+            ghost3.x = 13
+            ghost3.y = 11
+            count += 1
+    if count == 3:
+        if seconds > 27:
+            ghost4.x = 13
+            ghost4.y = 11
+            count += 1
     # Gestion des déplacements de Pacman
     new_x, new_y = pacman_x, pacman_y
     keys = pygame.key.get_pressed()
@@ -75,7 +104,7 @@ while running:
     SCREEN.blit(IMG_PACMAN_SMALL, (CASE_SIZE * pacman_x, CASE_SIZE * pacman_y))
     for ghost in ghosts:
         ghost.draw(SCREEN, CASE_SIZE)
-        ghost.move(maze, Wall)
+        ghost.move(maze, Wall) # calculate how many seconds
 
     # Actualise l'affichage
     pygame.display.flip()
