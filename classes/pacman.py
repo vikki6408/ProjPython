@@ -1,4 +1,42 @@
 import pygame
-import os
+import classes.tile as tile
+from settings import *
 
-#class Pacman(pygame.sprite.Sprite):
+class Pacman(pygame.sprite.Sprite):
+    def __init__(self, x, y, img, case_size):
+        super().__init__()
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (case_size * x, case_size * y)
+        self.x = x
+        self.y = y
+        self.case_size = case_size
+        self.last_dir = None  # Nouvelle variable
+
+    # Déplacement aléatoire
+    def move(self, maze, Wall):
+        # Gestion des déplacements de Pacman
+        new_x, new_y = self.x, self.y
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            new_x -= 1
+        elif keys[pygame.K_RIGHT]:
+            new_x += 1
+        elif keys[pygame.K_UP]:
+            new_y -= 1
+        elif keys[pygame.K_DOWN]:
+            new_y += 1
+
+        # Vérifie si Pacman mange un pellet
+        if isinstance(maze[self.y][self.x], tile.Pellet):
+            maze[self.y][self.x] = tile.Empty()
+            # score += 1  # (optionnel, si tu as une variable score)
+
+        # Vérifie que la case n'est pas un mur
+        if not isinstance(maze[new_y][new_x], Wall):
+            self.x, self.y = new_x, new_y
+
+        return new_x, new_y
+
+    def draw(self, screen, case_size):
+        screen.blit(self.image, (case_size * self.x, case_size * self.y))
