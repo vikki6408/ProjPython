@@ -27,3 +27,7 @@ class PowerPellet(Tile):
 
     def draw(self, x, y):
         pygame.draw.circle(settings.SCREEN, self.color, (x * settings.CASE_SIZE + 9, y * settings.CASE_SIZE + 9), 6)
+
+class Portal(Tile):
+    def __init__(self):
+        self.color = settings.BACKGROUND_COLOR

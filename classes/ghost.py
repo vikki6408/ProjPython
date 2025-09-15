@@ -12,11 +12,9 @@ class Ghost(pygame.sprite.Sprite):
         self.last_dir = None
         self.scared = False
 
-    # Déplacement aléatoire
     def move(self, maze, Wall):
-        directions = [(-1,0), (1,0), (0,-1), (0,1)]
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
-        # On évite le mouvement inverse
         if self.last_dir:
             directions.remove((-self.last_dir[0], -self.last_dir[1]))
             random.shuffle(directions)
@@ -24,12 +22,22 @@ class Ghost(pygame.sprite.Sprite):
         for dx, dy in directions:
             new_x = self.x + dx
             new_y = self.y + dy
-            # Vérifie les limites du labyrinthe
             if not isinstance(maze[new_y][new_x], Wall):
                 self.x, self.y = new_x, new_y
                 self.rect.topleft = (self.case_size * self.x, self.case_size * self.y)
                 self.last_dir = (dx, dy)
                 break
+
+        # Effet portail
+        import classes.tile as tile
+        if isinstance(maze[self.y][self.x], tile.Portal):
+            portals = [(y, x) for y, line in enumerate(maze) for x, case in enumerate(line) if
+                       isinstance(case, tile.Portal)]
+            for py, px in portals:
+                if (py, px) != (self.y, self.x):
+                    self.x, self.y = px, py
+                    self.rect.topleft = (self.case_size * self.x, self.case_size * self.y)
+                    break
 
     def draw(self, screen, case_size):
         screen.blit(self.image, (case_size * self.x, case_size * self.y))

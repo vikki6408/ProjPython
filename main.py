@@ -55,6 +55,8 @@ with open("assets/maze.txt", "r", encoding="utf-8") as f:
                 maze_line.append(tile.Pellet())
             elif char == "$":
                 maze_line.append(tile.PowerPellet())
+            elif char == "¦":
+                maze_line.append(tile.Portal())
         maze.append(maze_line)
 
 # Boucle principale
