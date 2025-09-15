@@ -21,3 +21,9 @@ class Pellet(Tile):
     def draw(self, x, y):
         pygame.draw.circle(settings.SCREEN, self.color, (x * settings.CASE_SIZE + 9, y * settings.CASE_SIZE + 9), 3)
 
+class PowerPellet(Tile):
+    def __init__(self):
+        self.color = settings.PELLET_COLOR
+
+    def draw(self, x, y):
+        pygame.draw.circle(settings.SCREEN, self.color, (x * settings.CASE_SIZE + 9, y * settings.CASE_SIZE + 9), 6)

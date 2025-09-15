@@ -9,7 +9,8 @@ class Ghost(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.case_size = case_size
-        self.last_dir = None  # Nouvelle variable
+        self.last_dir = None
+        self.scared = False
 
     # Déplacement aléatoire
     def move(self, maze, Wall):

@@ -8,6 +8,8 @@ pygame.init()
 pygame.display.set_caption("Pac-Man")
 clock = pygame.time.Clock()
 count = 1
+power_mode = False
+power_mode_timer = 0
 start_ticks=pygame.time.get_ticks()
 
 running = True
@@ -20,6 +22,7 @@ IMG_GHOSTBLUE_SMALL = pygame.transform.scale(IMG_GHOSTBLUE, (CASE_SIZE, CASE_SIZ
 IMG_GHOSTRED_SMALL = pygame.transform.scale(IMG_GHOSTRED, (CASE_SIZE, CASE_SIZE))
 IMG_GHOSTPINK_SMALL = pygame.transform.scale(IMG_GHOSTPINK, (CASE_SIZE, CASE_SIZE))
 IMG_GHOSTORANGE_SMALL = pygame.transform.scale(IMG_GHOSTORANGE, (CASE_SIZE, CASE_SIZE))
+IMG_GHOSTSCARED = pygame.transform.scale(IMG_GHOSTSCARED, (CASE_SIZE, CASE_SIZE))
 
 
 ghost1 = Ghost(ghostBlue_start_x, ghostBlue_start_y, IMG_GHOSTBLUE_SMALL, CASE_SIZE)
@@ -50,6 +53,8 @@ with open("assets/maze.txt", "r", encoding="utf-8") as f:
                 maze_line.append(tile.Wall())
             elif char == "*":
                 maze_line.append(tile.Pellet())
+            elif char == "$":
+                maze_line.append(tile.PowerPellet())
         maze.append(maze_line)
 
 # Boucle principale
@@ -87,7 +92,24 @@ while running:
     # Affichage des sprites
     for ghost in ghosts:
         ghost.draw(SCREEN, CASE_SIZE)
-        ghost.move(maze, tile.Wall) # calculate how many seconds
+        ghost.move(maze, tile.Wall)
+
+    # Vérifie si Pacman mange un power pellet
+    if isinstance(maze[pacman.y][pacman.x], tile.PowerPellet):
+        maze[pacman.y][pacman.x] = tile.Empty()
+        power_mode = True
+        power_mode_timer = pygame.time.get_ticks()
+        for ghost in ghosts:
+            ghost.scared = True
+            ghost.image = IMG_GHOSTSCARED
+
+    # Désactive le mode effrayé après 8 secondes
+    if power_mode and pygame.time.get_ticks() - power_mode_timer > 8000:
+        power_mode = False
+        for ghost, img in zip(ghosts,
+                              [IMG_GHOSTBLUE_SMALL, IMG_GHOSTRED_SMALL, IMG_GHOSTPINK_SMALL, IMG_GHOSTORANGE_SMALL]):
+            ghost.scared = False
+            ghost.image = img
 
     # Actualise l'affichage
     pygame.display.flip()

@@ -1,5 +1,6 @@
 import pygame
 import classes.tile as tile
+from classes.ghost import *
 from settings import *
 
 class Pacman(pygame.sprite.Sprite):
@@ -30,7 +31,6 @@ class Pacman(pygame.sprite.Sprite):
         # Vérifie si Pacman mange un pellet
         if isinstance(maze[self.y][self.x], tile.Pellet):
             maze[self.y][self.x] = tile.Empty()
-            # score += 1  # (optionnel, si tu as une variable score)
 
         # Vérifie que la case n'est pas un mur
         if not isinstance(maze[new_y][new_x], Wall):

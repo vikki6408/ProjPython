@@ -20,6 +20,7 @@ IMG_GHOSTBLUE = pygame.image.load('assets/images/ghostBlue.png')
 IMG_GHOSTRED = pygame.image.load('assets/images/ghostRed.png')
 IMG_GHOSTPINK = pygame.image.load('assets/images/ghostPink.png')
 IMG_GHOSTORANGE = pygame.image.load('assets/images/ghostOrange.png')
+IMG_GHOSTSCARED = pygame.image.load('assets/images/ghostScared.png')
 
 SCREEN = pygame.display.set_mode((WIDTH * CASE_SIZE, HEIGHT * CASE_SIZE))
 
