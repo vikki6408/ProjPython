@@ -95,6 +95,16 @@ while running:
     for ghost in ghosts:
         ghost.draw(SCREEN, CASE_SIZE)
         ghost.move(maze, tile.Wall)
+        if pacman.x == ghost.x and pacman.y == ghost.y:
+            if ghost.scared:
+                # Pacman mange le fantôme, le renvoie à sa position de départ
+                ghost.x = ghost.start_x
+                ghost.y = ghost.start_y
+                ghost.scared = False
+                ghost.image = ghost.original_image
+            else:
+                # Pacman est touché, fin du jeu ou réinitialisation
+                pacman.game_over(SCREEN)  # ou réinitialise la position de Pacman
 
     # Vérifie si Pacman mange un power pellet
     if isinstance(maze[pacman.y][pacman.x], tile.PowerPellet):

@@ -4,14 +4,16 @@ class Ghost(pygame.sprite.Sprite):
     def __init__(self, x, y, img, case_size):
         super().__init__()
         self.image = img
+        self.original_image = img
         self.rect = self.image.get_rect()
         self.rect.topleft = (case_size * x, case_size * y)
         self.x = x
         self.y = y
+        self.start_x = x
+        self.start_y = y
         self.case_size = case_size
         self.last_dir = None
         self.scared = False
-
     def move(self, maze, Wall):
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 

@@ -50,3 +50,17 @@ class Pacman(pygame.sprite.Sprite):
 
     def draw(self, screen, case_size):
         screen.blit(self.image, (case_size * self.x, case_size * self.y))
+
+    def game_over(self, screen):
+        self.x = pacman_x
+        self.y = pacman_y
+        # police
+        my_font = pygame.font.SysFont('Comic Sans MS', 50, bold=True)
+
+        text_surface = my_font.render('GAME OVER', True, (255, 0, 0))  # rouge
+
+        text_rect = text_surface.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+
+        screen.blit(text_surface, text_rect)
+        pygame.display.update()
+        pygame.time.delay(2000)
