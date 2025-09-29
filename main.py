@@ -1,5 +1,6 @@
 from classes.ghost import *
 from settings import *
+from classes.restart import *
 import classes.pacman as pacman
 import classes.tile as tile
 
@@ -12,18 +13,10 @@ power_mode = False
 power_mode_timer = 0
 start_ticks=pygame.time.get_ticks()
 
+
 running = True
 
 # Redimension de pacman
-IMG_PACMAN_SMALL = pygame.transform.scale(IMG_PACMAN, (CASE_SIZE, CASE_SIZE))
-
-# Redimension des fantômes
-IMG_GHOSTBLUE_SMALL = pygame.transform.scale(IMG_GHOSTBLUE, (CASE_SIZE, CASE_SIZE))
-IMG_GHOSTRED_SMALL = pygame.transform.scale(IMG_GHOSTRED, (CASE_SIZE, CASE_SIZE))
-IMG_GHOSTPINK_SMALL = pygame.transform.scale(IMG_GHOSTPINK, (CASE_SIZE, CASE_SIZE))
-IMG_GHOSTORANGE_SMALL = pygame.transform.scale(IMG_GHOSTORANGE, (CASE_SIZE, CASE_SIZE))
-IMG_GHOSTSCARED = pygame.transform.scale(IMG_GHOSTSCARED, (CASE_SIZE, CASE_SIZE))
-
 
 ghost1 = Ghost(ghostBlue_start_x, ghostBlue_start_y, IMG_GHOSTBLUE_SMALL, CASE_SIZE)
 ghost2 =  Ghost(ghostRed_start_x, ghostRed_start_y, IMG_GHOSTRED_SMALL, CASE_SIZE)
@@ -39,7 +32,7 @@ ghosts = [
     ghost3,
     ghost4
 ]
-
+restart = Restart(ghost1, ghost2, ghost3, ghost4, pacman)
 
 # Labyrinthe (1 = mur, 0 = chemin, 2 = porte des fantômes)
 maze = []
@@ -105,6 +98,7 @@ while running:
             else:
                 # Pacman est touché, fin du jeu ou réinitialisation
                 pacman.game_over(SCREEN)  # ou réinitialise la position de Pacman
+                restart.restart_game()
 
     # Vérifie si Pacman mange un power pellet
     if isinstance(maze[pacman.y][pacman.x], tile.PowerPellet):

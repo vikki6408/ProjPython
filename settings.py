@@ -22,6 +22,15 @@ IMG_GHOSTPINK = pygame.image.load('assets/images/ghostPink.png')
 IMG_GHOSTORANGE = pygame.image.load('assets/images/ghostOrange.png')
 IMG_GHOSTSCARED = pygame.image.load('assets/images/ghostScared.png')
 
+IMG_PACMAN_SMALL = pygame.transform.scale(IMG_PACMAN, (CASE_SIZE, CASE_SIZE))
+
+# Redimension des fantômes
+IMG_GHOSTBLUE_SMALL = pygame.transform.scale(IMG_GHOSTBLUE, (CASE_SIZE, CASE_SIZE))
+IMG_GHOSTRED_SMALL = pygame.transform.scale(IMG_GHOSTRED, (CASE_SIZE, CASE_SIZE))
+IMG_GHOSTPINK_SMALL = pygame.transform.scale(IMG_GHOSTPINK, (CASE_SIZE, CASE_SIZE))
+IMG_GHOSTORANGE_SMALL = pygame.transform.scale(IMG_GHOSTORANGE, (CASE_SIZE, CASE_SIZE))
+IMG_GHOSTSCARED = pygame.transform.scale(IMG_GHOSTSCARED, (CASE_SIZE, CASE_SIZE))
+
 SCREEN = pygame.display.set_mode((WIDTH * CASE_SIZE, HEIGHT * CASE_SIZE))
 
 # Couleurs

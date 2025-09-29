@@ -64,3 +64,8 @@ class Pacman(pygame.sprite.Sprite):
         screen.blit(text_surface, text_rect)
         pygame.display.update()
         pygame.time.delay(2000)
+
+    def reset(self, x, y, image):
+        self.x = x
+        self.y = y
+        self.image = image

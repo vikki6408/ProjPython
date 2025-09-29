@@ -43,3 +43,10 @@ class Ghost(pygame.sprite.Sprite):
 
     def draw(self, screen, case_size):
         screen.blit(self.image, (case_size * self.x, case_size * self.y))
+
+
+    def reset(self, x, y, image):
+        self.x = x
+        self.y = y
+        self.image = image
+        self.scared = False
