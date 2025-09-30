@@ -31,3 +31,7 @@ class PowerPellet(Tile):
 class Portal(Tile):
     def __init__(self):
         self.color = settings.BACKGROUND_COLOR
+
+class EatenPellet(Tile):
+    def __init__(self):
+        self.color = settings.BACKGROUND_COLOR

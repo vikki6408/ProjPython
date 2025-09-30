@@ -3,7 +3,6 @@ from settings import *
 from classes.restart import *
 import classes.pacman as pacman
 import classes.tile as tile
-
 # pygame setup
 pygame.init()
 pygame.display.set_caption("Pac-Man")
@@ -88,17 +87,18 @@ while running:
     for ghost in ghosts:
         ghost.draw(SCREEN, CASE_SIZE)
         ghost.move(maze, tile.Wall)
+        ghost.update_waiting() # Met à jour l'état d'attente du fantôme
         if pacman.x == ghost.x and pacman.y == ghost.y:
             if ghost.scared:
                 # Pacman mange le fantôme, le renvoie à sa position de départ
-                ghost.x = ghost.start_x
-                ghost.y = ghost.start_y
+                ghost.start_waiting()
                 ghost.scared = False
                 ghost.image = ghost.original_image
             else:
                 # Pacman est touché, fin du jeu ou réinitialisation
                 pacman.game_over(SCREEN)  # ou réinitialise la position de Pacman
-                restart.restart_game()
+                restart.restart_game(maze,count,seconds)
+                print(count,seconds)
 
     # Vérifie si Pacman mange un power pellet
     if isinstance(maze[pacman.y][pacman.x], tile.PowerPellet):
@@ -116,6 +116,9 @@ while running:
                               [IMG_GHOSTBLUE_SMALL, IMG_GHOSTRED_SMALL, IMG_GHOSTPINK_SMALL, IMG_GHOSTORANGE_SMALL]):
             ghost.scared = False
             ghost.image = img
+
+    if pacman.check_win(maze):
+        print("Victoire !")
 
     # Actualise l'affichage
     pygame.display.flip()

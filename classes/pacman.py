@@ -44,7 +44,7 @@ class Pacman(pygame.sprite.Sprite):
 
         # Vérifie si Pacman mange un pellet
         if isinstance(maze[self.y][self.x], tile.Pellet):
-            maze[self.y][self.x] = tile.Empty()
+            maze[self.y][self.x] = tile.EatenPellet()
 
         return self.x, self.y
 
@@ -69,3 +69,11 @@ class Pacman(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.image = image
+
+    # Vérifie la victoire
+    def check_win(self, maze):
+        for line in maze:
+            for case in line:
+                if isinstance(case, tile.Pellet) or isinstance(case, tile.PowerPellet):
+                    return False
+        return True

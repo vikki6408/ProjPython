@@ -14,6 +14,9 @@ class Ghost(pygame.sprite.Sprite):
         self.case_size = case_size
         self.last_dir = None
         self.scared = False
+        self.waiting = False
+        self.wait_start_time = 0
+
     def move(self, maze, Wall):
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
@@ -50,3 +53,15 @@ class Ghost(pygame.sprite.Sprite):
         self.y = y
         self.image = image
         self.scared = False
+
+    def start_waiting(self):
+        self.x = 11
+        self.y = 14
+        self.waiting = True
+        self.wait_start_time = pygame.time.get_ticks()
+
+    def update_waiting(self):
+        if self.waiting and pygame.time.get_ticks() - self.wait_start_time > 2000:
+            self.x = 13
+            self.y = 11
+            self.waiting = False
