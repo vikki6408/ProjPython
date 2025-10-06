@@ -1,4 +1,4 @@
-from classes.start import *
+from classes.restart import *
 # pygame setup
 pygame.init()
 pygame.display.set_caption("Pac-Man")
@@ -107,6 +107,7 @@ while running:
             else:
                 print(pacman.lifes)
                 if pacman.lifes == 0:
+                    pacman.score = 0
                     pacman.game_over(SCREEN)
                     restart.restart_game(maze, count, start_ticks)
                 else:

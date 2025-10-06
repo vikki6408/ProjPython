@@ -91,6 +91,7 @@ class Pacman(pygame.sprite.Sprite):
         self.y = y
         self.image = image
         self.lifes = 2
+        self.power_mode = False
 
     def draw_score(self, screen):
         my_font = pygame.font.SysFont('Comic Sans MS', 24, bold=True)
