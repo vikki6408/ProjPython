@@ -1,28 +1,20 @@
-from classes.ghost import *
-from settings import *
-from classes.restart import *
-import classes.pacman as pacman
-import classes.tile as tile
+from classes.start import *
 # pygame setup
 pygame.init()
 pygame.display.set_caption("Pac-Man")
 clock = pygame.time.Clock()
 count = 1
-power_mode = False
-power_mode_timer = 0
 start_ticks=pygame.time.get_ticks()
-
+score = 0
 
 running = True
 
-# Redimension de pacman
-
 ghost1 = Ghost(ghostBlue_start_x, ghostBlue_start_y, IMG_GHOSTBLUE_SMALL, CASE_SIZE)
-ghost2 =  Ghost(ghostRed_start_x, ghostRed_start_y, IMG_GHOSTRED_SMALL, CASE_SIZE)
+ghost2 = Ghost(ghostRed_start_x, ghostRed_start_y, IMG_GHOSTRED_SMALL, CASE_SIZE)
 ghost3 = Ghost(ghostPink_start_x, ghostPink_start_y, IMG_GHOSTPINK_SMALL, CASE_SIZE)
 ghost4 = Ghost(ghostOrange_start_x, ghostOrange_start_y, IMG_GHOSTORANGE_SMALL, CASE_SIZE)
 
-pacman = pacman.Pacman(pacman_x, pacman_y, IMG_PACMAN_SMALL, CASE_SIZE)
+pacman = Pacman(pacman_x, pacman_y, IMG_PACMAN_SMALL, CASE_SIZE)
 
 # Création des fantômes
 ghosts = [
@@ -31,7 +23,8 @@ ghosts = [
     ghost3,
     ghost4
 ]
-restart = Restart(ghost1, ghost2, ghost3, ghost4, pacman)
+
+start = Start(ghost1, ghost2, ghost3, ghost4, pacman)
 
 # Labyrinthe (1 = mur, 0 = chemin, 2 = porte des fantômes)
 maze = []
@@ -83,42 +76,47 @@ while running:
     pacman.draw(SCREEN, CASE_SIZE)
     pacman.move(maze, tile.Wall)
 
+    # Met les fantômes en mode effrayé si Pacman est en mode power ou les réinitialise si plus
+    if pacman.power_mode:
+        for ghost in ghosts:
+            ghost.scared = True
+            ghost.image = IMG_GHOSTSCARED
+    else:
+        for i, ghost in enumerate(ghosts):
+            if i == 0:
+                ghost.image = IMG_GHOSTBLUE_SMALL
+            elif i == 1:
+                ghost.image = IMG_GHOSTRED_SMALL
+            elif i == 2:
+                ghost.image = IMG_GHOSTPINK_SMALL
+            elif i == 3:
+                ghost.image = IMG_GHOSTORANGE_SMALL
+            ghost.scared = False
+
     # Affichage des sprites
     for ghost in ghosts:
         ghost.draw(SCREEN, CASE_SIZE)
         ghost.move(maze, tile.Wall)
         ghost.update_waiting() # Met à jour l'état d'attente du fantôme
         if pacman.x == ghost.x and pacman.y == ghost.y:
-            if ghost.scared:
+            if ghost.scared and pacman.power_mode:
                 # Pacman mange le fantôme, le renvoie à sa position de départ
+                score += 200
                 ghost.start_waiting()
                 ghost.scared = False
                 ghost.image = ghost.original_image
             else:
-                # Pacman est touché, fin du jeu ou réinitialisation
-                pacman.game_over(SCREEN)  # ou réinitialise la position de Pacman
-                restart.restart_game(maze,count,seconds)
-                print(count,seconds)
-
-    # Vérifie si Pacman mange un power pellet
-    if isinstance(maze[pacman.y][pacman.x], tile.PowerPellet):
-        maze[pacman.y][pacman.x] = tile.Empty()
-        power_mode = True
-        power_mode_timer = pygame.time.get_ticks()
-        for ghost in ghosts:
-            ghost.scared = True
-            ghost.image = IMG_GHOSTSCARED
-
-    # Désactive le mode effrayé après 8 secondes
-    if power_mode and pygame.time.get_ticks() - power_mode_timer > 8000:
-        power_mode = False
-        for ghost, img in zip(ghosts,
-                              [IMG_GHOSTBLUE_SMALL, IMG_GHOSTRED_SMALL, IMG_GHOSTPINK_SMALL, IMG_GHOSTORANGE_SMALL]):
-            ghost.scared = False
-            ghost.image = img
+                print(pacman.lifes)
+                if pacman.lifes == 0:
+                    pacman.game_over(SCREEN)
+                    start.start_game(maze, count, start_ticks)
+                else:
+                    pacman.lifes -= 1
+                    pacman.display_lifes(SCREEN)
 
     if pacman.check_win(maze):
-        print("Victoire !")
+        start.start_game(maze, count, start_ticks)
+
 
     # Actualise l'affichage
     pygame.display.flip()

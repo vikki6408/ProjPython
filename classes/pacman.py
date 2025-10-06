@@ -1,6 +1,4 @@
-import pygame
 import classes.tile as tile
-from classes.ghost import *
 from settings import *
 
 class Pacman(pygame.sprite.Sprite):
@@ -13,10 +11,13 @@ class Pacman(pygame.sprite.Sprite):
         self.y = y
         self.case_size = case_size
         self.last_dir = None  # Nouvelle variable
+        self.lifes = 2
+        self.power_mode = False
+        self.power_mode_timer = 0
 
     # Déplacement aléatoire
     # Python
-    def move(self, maze, Wall):
+    def move(self, maze, Wall,):
         new_x, new_y = self.x, self.y
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
@@ -45,6 +46,14 @@ class Pacman(pygame.sprite.Sprite):
         # Vérifie si Pacman mange un pellet
         if isinstance(maze[self.y][self.x], tile.Pellet):
             maze[self.y][self.x] = tile.EatenPellet()
+        # Vérifie si Pacman mange un power pellet
+        elif isinstance(maze[self.y][self.x], tile.PowerPellet):
+            maze[self.y][self.x] = tile.Empty()
+            self.power_mode = True
+            self.power_mode_timer = pygame.time.get_ticks()
+        # Désactive le mode power après 8 secondes
+        if self.power_mode and pygame.time.get_ticks() - self.power_mode_timer > 8000:
+            self.power_mode = False
 
         return self.x, self.y
 
@@ -52,15 +61,22 @@ class Pacman(pygame.sprite.Sprite):
         screen.blit(self.image, (case_size * self.x, case_size * self.y))
 
     def game_over(self, screen):
+
+        print("Game Over")
         self.x = pacman_x
         self.y = pacman_y
-        # police
+
         my_font = pygame.font.SysFont('Comic Sans MS', 50, bold=True)
-
         text_surface = my_font.render('GAME OVER', True, (255, 0, 0))  # rouge
-
         text_rect = text_surface.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+        screen.blit(text_surface, text_rect)
+        pygame.display.update()
+        pygame.time.delay(2000)
 
+    def display_lifes(self, screen):
+        my_font = pygame.font.SysFont('Comic Sans MS', 30, bold=True)
+        text_surface = my_font.render(f'{self.lifes} lifes left', True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
         screen.blit(text_surface, text_rect)
         pygame.display.update()
         pygame.time.delay(2000)
@@ -69,11 +85,19 @@ class Pacman(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.image = image
+        self.lifes = 2
 
     # Vérifie la victoire
     def check_win(self, maze):
         for line in maze:
             for case in line:
                 if isinstance(case, tile.Pellet) or isinstance(case, tile.PowerPellet):
-                    return False
+                    return
+        my_font = pygame.font.SysFont('Comic Sans MS', 50, bold=True)
+        text_surface = my_font.render('VICTORY', True, (0, 255, 0))
+        text_rect = text_surface.get_rect(center=(SCREEN.get_width() // 2, SCREEN.get_height() // 2))
+        SCREEN.blit(text_surface, text_rect)
+        pygame.display.update()
+        pygame.time.delay(2000)
         return True
+
