@@ -24,7 +24,7 @@ ghosts = [
     ghost4
 ]
 
-start = Start(ghost1, ghost2, ghost3, ghost4, pacman)
+restart = Restart(ghost1, ghost2, ghost3, ghost4, pacman)
 
 # Labyrinthe (1 = mur, 0 = chemin, 2 = porte des fantômes)
 maze = []
@@ -108,14 +108,13 @@ while running:
                 print(pacman.lifes)
                 if pacman.lifes == 0:
                     pacman.game_over(SCREEN)
-                    start.start_game(maze, count, start_ticks)
+                    restart.restart_game(maze, count, start_ticks)
                 else:
                     pacman.lifes -= 1
                     pacman.display_lifes(SCREEN)
 
     if pacman.check_win(maze):
-        start.start_game(maze, count, start_ticks)
-
+        restart.restart_game(maze, count, start_ticks)
 
     # Actualise l'affichage
     pygame.display.flip()
