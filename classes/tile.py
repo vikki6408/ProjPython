@@ -19,15 +19,25 @@ class Pellet(Tile):
         self.color = settings.PELLET_COLOR
 
     def draw(self, x, y):
-        pygame.draw.circle(settings.SCREEN, self.color, (x * settings.CASE_SIZE + 9, y * settings.CASE_SIZE + 9), 3)
-
+        center = settings.CASE_SIZE // 2
+        pygame.draw.circle(
+            settings.SCREEN,
+            self.color,
+            (x * settings.CASE_SIZE + center, y * settings.CASE_SIZE + center),
+            4
+        )
 class PowerPellet(Tile):
     def __init__(self):
         self.color = settings.PELLET_COLOR
 
     def draw(self, x, y):
-        pygame.draw.circle(settings.SCREEN, self.color, (x * settings.CASE_SIZE + 9, y * settings.CASE_SIZE + 9), 6)
-
+        center = settings.CASE_SIZE // 2
+        pygame.draw.circle(
+            settings.SCREEN,
+            self.color,
+            (x * settings.CASE_SIZE + center, y * settings.CASE_SIZE + center),
+            9
+        )
 class Portal(Tile):
     def __init__(self):
         self.color = settings.BACKGROUND_COLOR

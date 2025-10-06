@@ -1,16 +1,16 @@
 import pygame
 
 TITLE = 'Pac-Man'
-CASE_SIZE = 18
-WIDTH, HEIGHT = 28, 32
+CASE_SIZE = 28
+WIDTH, HEIGHT = 28, 34
 
 # Position initiale de Pac-Man
-pacman_x, pacman_y = 13, 23
+pacman_x, pacman_y = 13, 24
 # Position initiale des fantômes
-ghostBlue_start_x, ghostBlue_start_y = 11, 14
-ghostRed_start_x, ghostRed_start_y = 13, 11
-ghostPink_start_x, ghostPink_start_y = 13, 14
-ghostOrange_start_x, ghostOrange_start_y = 15, 14
+ghostBlue_start_x, ghostBlue_start_y = 11, 15
+ghostRed_start_x, ghostRed_start_y = 13, 12
+ghostPink_start_x, ghostPink_start_y = 13, 15
+ghostOrange_start_x, ghostOrange_start_y = 15, 15
 
 #pacman image
 IMG_PACMAN = pygame.image.load('assets/images/pacman.png')

@@ -113,8 +113,12 @@ while running:
                     pacman.lifes -= 1
                     pacman.display_lifes(SCREEN)
 
+    # Vérifie si Pacman a gagné
     if pacman.check_win(maze):
         restart.restart_game(maze, count, start_ticks)
+
+    # Affiche le score
+    pacman.draw_score(SCREEN)
 
     # Actualise l'affichage
     pygame.display.flip()

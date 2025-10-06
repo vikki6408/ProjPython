@@ -14,6 +14,7 @@ class Pacman(pygame.sprite.Sprite):
         self.lifes = 2
         self.power_mode = False
         self.power_mode_timer = 0
+        self.score = 0
 
     # Déplacement aléatoire
     # Python
@@ -46,11 +47,15 @@ class Pacman(pygame.sprite.Sprite):
         # Vérifie si Pacman mange un pellet
         if isinstance(maze[self.y][self.x], tile.Pellet):
             maze[self.y][self.x] = tile.EatenPellet()
+            self.score += 10
+
         # Vérifie si Pacman mange un power pellet
         elif isinstance(maze[self.y][self.x], tile.PowerPellet):
             maze[self.y][self.x] = tile.Empty()
             self.power_mode = True
             self.power_mode_timer = pygame.time.get_ticks()
+            self.score += 50
+
         # Désactive le mode power après 8 secondes
         if self.power_mode and pygame.time.get_ticks() - self.power_mode_timer > 8000:
             self.power_mode = False
@@ -86,6 +91,11 @@ class Pacman(pygame.sprite.Sprite):
         self.y = y
         self.image = image
         self.lifes = 2
+
+    def draw_score(self, screen):
+        my_font = pygame.font.SysFont('Comic Sans MS', 24, bold=True)
+        text_surface = my_font.render(f'Score : {self.score}', True, (255, 255, 255))
+        screen.blit(text_surface, (1, 1))  # Position en haut à gauche
 
     # Vérifie la victoire
     def check_win(self, maze):
