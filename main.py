@@ -73,9 +73,6 @@ while running:
         for x, case in enumerate(line):
             case.draw(x, y)
 
-    pacman.draw(SCREEN, CASE_SIZE)
-    pacman.move(maze, tile.Wall)
-
     # Met les fantômes en mode effrayé si Pacman est en mode power ou les réinitialise si plus
     if pacman.power_mode:
         for ghost in ghosts:
@@ -94,6 +91,8 @@ while running:
             ghost.scared = False
 
     # Affichage des sprites
+    pacman.move(maze, tile.Wall)
+    pacman.draw(SCREEN, CASE_SIZE)
     for ghost in ghosts:
         ghost.draw(SCREEN, CASE_SIZE)
         ghost.move(maze, tile.Wall)
