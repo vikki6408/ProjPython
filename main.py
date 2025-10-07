@@ -4,9 +4,8 @@ from classes.restart import *
 pygame.init()
 pygame.display.set_caption("Pac-Man")
 clock = pygame.time.Clock()
-count = 1
+count = 0
 start_ticks=pygame.time.get_ticks()
-score = 0
 
 # Vitesse de déplacement (en pixels par seconde)
 PACMAN_SPEED = 100  # Ajustez cette valeur pour Pac-Man
@@ -14,7 +13,6 @@ GHOST_SPEED = 80    # Ajustez cette valeur pour les fantômes
 
 # Temps précédent pour calculer delta_time
 previous_time = pygame.time.get_ticks()
-
 
 running = True
 
@@ -63,7 +61,7 @@ while running:
     seconds = (pygame.time.get_ticks() - start_ticks) / 1000
 
     if count == 1:
-        if seconds > 8:  # if more than 10 seconds close the game
+        if seconds > 8:
             ghost1.x = 23
             ghost1.y = 12
             count += 1
@@ -110,25 +108,24 @@ while running:
         if pacman.x == ghost.x and pacman.y == ghost.y:
             if ghost.scared and pacman.power_mode:
                 # Pacman mange le fantôme, le renvoie à sa position de départ
-                score += 200
+                pacman.score += 200
                 ghost.start_waiting()
                 ghost.scared = False
                 ghost.image = ghost.original_image
             else:
-                print(pacman.lifes)
-                if pacman.lifes == 0:
-                    pacman.score = 0
+                if pacman.lifes < 0:
                     pacman.game_over(SCREEN)
-                    restart.restart_sprite(count, start_ticks)
-                    restart.restart_tiles(maze, start_ticks, count)
+                    restart.restart_game(maze)
                 else:
                     pacman.draw_lifes(SCREEN)
                     pacman.lifes -= 1
-                    restart.restart_sprite(count, start_ticks)
+                    restart.reset_sprites_positions()
+                    count = 0
+
 
     # Vérifie si Pacman a gagné
     if pacman.check_win(maze):
-        restart.restart_game(maze, count, start_ticks)
+        restart.restart_game(maze)
 
     # Affiche le score
     pacman.draw_score(SCREEN)
@@ -136,6 +133,8 @@ while running:
 
     # Actualise l'affichage
     pygame.display.flip()
+    print(count)
+    print(seconds)
 
     # Vitesse de la boucle
     clock.tick(6)

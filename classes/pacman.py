@@ -82,18 +82,19 @@ class Pacman(pygame.sprite.Sprite):
         pygame.display.update()
         pygame.time.delay(2000)
 
-    def display_lifes(self, screen):
-        """my_font = pygame.font.SysFont('Comic Sans MS', 30, bold=True)
-        text_surface = my_font.render(f'{self.lifes} lifes left', True, (255, 255, 255))
-        text_rect = text_surface.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
-        screen.blit(text_surface, text_rect)"""
-
-
     def reset(self, x, y, image):
         self.x = x
         self.y = y
         self.image = image
         self.lifes = 2
+        self.power_mode = False
+        self.score = 0
+        self.last_dir = None
+
+    def reset_position(self, x, y, image):
+        self.x = x
+        self.y = y
+        self.image = image
         self.power_mode = False
 
     def draw_score(self, screen):
@@ -104,7 +105,6 @@ class Pacman(pygame.sprite.Sprite):
     def draw_lifes(self, screen):
         img = IMG_PACMAN_RIGHT_SMALL
         for i in range(self.lifes, 5 + self.lifes * 25, 25):
-            print(i)
             screen.blit(img, (i + 1, 45))
 
     # Vérifie la victoire
