@@ -18,7 +18,7 @@ class Pacman(pygame.sprite.Sprite):
 
     # Déplacement aléatoire
     # Python
-    def move(self, maze, wall):
+    def move(self, maze):
         new_x, new_y = self.x, self.y
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
@@ -35,7 +35,7 @@ class Pacman(pygame.sprite.Sprite):
             self.image = IMG_PACMAN_DOWN_SMALL
 
         # Vérifie que la case n'est pas un mur
-        if not isinstance(maze[new_y][new_x], wall):
+        if not isinstance(maze[new_y][new_x], tile.Wall):
             self.x, self.y = new_x, new_y
 
         # Effet portail

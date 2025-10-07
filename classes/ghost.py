@@ -1,6 +1,6 @@
 import pygame
 import random
-
+import classes.tile as tile
 from settings import CASE_SIZE, SCREEN
 
 
@@ -21,7 +21,7 @@ class Ghost(pygame.sprite.Sprite):
         self.waiting = False
         self.wait_start_time = 0
 
-    def move(self, maze, Wall):
+    def move(self, maze):
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
         if self.last_dir:
@@ -31,14 +31,13 @@ class Ghost(pygame.sprite.Sprite):
         for dx, dy in directions:
             new_x = self.x + dx
             new_y = self.y + dy
-            if not isinstance(maze[new_y][new_x], Wall):
+            if not isinstance(maze[new_y][new_x], tile.Wall):
                 self.x, self.y = new_x, new_y
                 self.rect.topleft = (self.case_size * self.x, self.case_size * self.y)
                 self.last_dir = (dx, dy)
                 break
 
         # Effet portail
-        import classes.tile as tile
         if isinstance(maze[self.y][self.x], tile.Portal):
             portals = [(y, x) for y, line in enumerate(maze) for x, case in enumerate(line) if
                        isinstance(case, tile.Portal)]

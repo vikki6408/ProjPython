@@ -103,9 +103,9 @@ while running:
             ghost.scared = False
 
     # Affichage des sprites
-    pacman.move(maze, tile.Wall)
+    pacman.move(maze)
     for ghost in ghosts:
-        ghost.move(maze, tile.Wall)
+        ghost.move(maze)
         ghost.update_waiting() # Met à jour l'état d'attente du fantôme
         if pacman.x == ghost.x and pacman.y == ghost.y:
             if ghost.scared and pacman.power_mode:
