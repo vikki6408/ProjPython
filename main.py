@@ -4,7 +4,7 @@ from classes.restart import *
 pygame.init()
 pygame.display.set_caption("Pac-Man")
 clock = pygame.time.Clock()
-count = 0
+count = 1
 start_ticks=pygame.time.get_ticks()
 
 # Vitesse de déplacement (en pixels par seconde)
@@ -120,8 +120,8 @@ while running:
                     pacman.draw_lifes(SCREEN)
                     pacman.lifes -= 1
                     restart.reset_sprites_positions()
-                    count = 0
-
+                    count = 1
+                    start_ticks = pygame.time.get_ticks()
 
     # Vérifie si Pacman a gagné
     if pacman.check_win(maze):
