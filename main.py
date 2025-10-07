@@ -1,11 +1,20 @@
 from classes.restart import *
 # pygame setup
+
 pygame.init()
 pygame.display.set_caption("Pac-Man")
 clock = pygame.time.Clock()
 count = 1
 start_ticks=pygame.time.get_ticks()
 score = 0
+
+# Vitesse de déplacement (en pixels par seconde)
+PACMAN_SPEED = 100  # Ajustez cette valeur pour Pac-Man
+GHOST_SPEED = 80    # Ajustez cette valeur pour les fantômes
+
+# Temps précédent pour calculer delta_time
+previous_time = pygame.time.get_ticks()
+
 
 running = True
 
@@ -14,7 +23,7 @@ ghost2 = Ghost(ghostRed_start_x, ghostRed_start_y, IMG_GHOSTRED_SMALL, CASE_SIZE
 ghost3 = Ghost(ghostPink_start_x, ghostPink_start_y, IMG_GHOSTPINK_SMALL, CASE_SIZE)
 ghost4 = Ghost(ghostOrange_start_x, ghostOrange_start_y, IMG_GHOSTORANGE_SMALL, CASE_SIZE)
 
-pacman = Pacman(pacman_x, pacman_y, IMG_PACMAN_SMALL, CASE_SIZE)
+pacman = Pacman(pacman_x, pacman_y, IMG_PACMAN_RIGHT_SMALL, CASE_SIZE)
 
 # Création des fantômes
 ghosts = [
@@ -46,6 +55,7 @@ with open("assets/maze.txt", "r", encoding="utf-8") as f:
 
 # Boucle principale
 while running:
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -54,18 +64,18 @@ while running:
 
     if count == 1:
         if seconds > 8:  # if more than 10 seconds close the game
-            ghost1.x = 13
-            ghost1.y = 11
+            ghost1.x = 23
+            ghost1.y = 12
             count += 1
     if count == 2:
         if seconds > 17:
-            ghost3.x = 13
-            ghost3.y = 11
+            ghost3.x = 23
+            ghost3.y = 12
             count += 1
     if count == 3:
         if seconds > 27:
-            ghost4.x = 13
-            ghost4.y = 11
+            ghost4.x = 23
+            ghost4.y = 12
             count += 1
 
     SCREEN.fill(BACKGROUND_COLOR)
@@ -109,10 +119,12 @@ while running:
                 if pacman.lifes == 0:
                     pacman.score = 0
                     pacman.game_over(SCREEN)
-                    restart.restart_game(maze, count, start_ticks)
+                    restart.restart_sprite(count, start_ticks)
+                    restart.restart_tiles(maze, start_ticks, count)
                 else:
+                    pacman.draw_lifes(SCREEN)
                     pacman.lifes -= 1
-                    pacman.display_lifes(SCREEN)
+                    restart.restart_sprite(count, start_ticks)
 
     # Vérifie si Pacman a gagné
     if pacman.check_win(maze):
@@ -120,6 +132,7 @@ while running:
 
     # Affiche le score
     pacman.draw_score(SCREEN)
+    pacman.draw_lifes(SCREEN)
 
     # Actualise l'affichage
     pygame.display.flip()

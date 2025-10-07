@@ -55,13 +55,13 @@ class Ghost(pygame.sprite.Sprite):
         self.scared = False
 
     def start_waiting(self):
-        self.x = 11
-        self.y = 14
+        self.x = 23
+        self.y = 12
         self.waiting = True
         self.wait_start_time = pygame.time.get_ticks()
 
     def update_waiting(self):
         if self.waiting and pygame.time.get_ticks() - self.wait_start_time > 2000:
-            self.x = 13
-            self.y = 11
+            self.x = 23
+            self.y = 12
             self.waiting = False
