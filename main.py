@@ -1,4 +1,8 @@
 from classes.restart import *
+from classes.ghost import *
+from classes.pacman import *
+from classes.tile import *
+from settings import *
 # pygame setup
 
 pygame.init()
@@ -100,9 +104,7 @@ while running:
 
     # Affichage des sprites
     pacman.move(maze, tile.Wall)
-    pacman.draw(SCREEN, CASE_SIZE)
     for ghost in ghosts:
-        ghost.draw(SCREEN, CASE_SIZE)
         ghost.move(maze, tile.Wall)
         ghost.update_waiting() # Met à jour l'état d'attente du fantôme
         if pacman.x == ghost.x and pacman.y == ghost.y:
@@ -114,27 +116,32 @@ while running:
                 ghost.image = ghost.original_image
             else:
                 if pacman.lifes < 0:
-                    pacman.game_over(SCREEN)
+                    pacman.game_over()
                     restart.restart_game(maze)
                 else:
-                    pacman.draw_lifes(SCREEN)
                     pacman.lifes -= 1
+                    pacman.draw_lifes()
                     restart.reset_sprites_positions()
+
+                    # reset le compteur et les secondes pour les fantômes
                     count = 1
                     start_ticks = pygame.time.get_ticks()
+
+    # Dessine Pacman et les fantômes
+    pacman.draw()
+    for ghost in ghosts:
+        ghost.draw()
 
     # Vérifie si Pacman a gagné
     if pacman.check_win(maze):
         restart.restart_game(maze)
 
     # Affiche le score
-    pacman.draw_score(SCREEN)
-    pacman.draw_lifes(SCREEN)
+    pacman.draw_score()
+    pacman.draw_lifes()
 
     # Actualise l'affichage
     pygame.display.flip()
-    print(count)
-    print(seconds)
 
     # Vitesse de la boucle
     clock.tick(6)

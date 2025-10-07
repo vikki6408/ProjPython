@@ -18,7 +18,7 @@ class Pacman(pygame.sprite.Sprite):
 
     # Déplacement aléatoire
     # Python
-    def move(self, maze, Wall):
+    def move(self, maze, wall):
         new_x, new_y = self.x, self.y
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
@@ -35,7 +35,7 @@ class Pacman(pygame.sprite.Sprite):
             self.image = IMG_PACMAN_DOWN_SMALL
 
         # Vérifie que la case n'est pas un mur
-        if not isinstance(maze[new_y][new_x], Wall):
+        if not isinstance(maze[new_y][new_x], wall):
             self.x, self.y = new_x, new_y
 
         # Effet portail
@@ -66,10 +66,10 @@ class Pacman(pygame.sprite.Sprite):
 
         return self.x, self.y
 
-    def draw(self, screen, case_size):
-        screen.blit(self.image, (case_size * self.x, case_size * self.y))
+    def draw(self):
+        SCREEN.blit(self.image, (CASE_SIZE * self.x, CASE_SIZE * self.y))
 
-    def game_over(self, screen):
+    def game_over(self):
 
         print("Game Over")
         self.x = pacman_x
@@ -77,8 +77,8 @@ class Pacman(pygame.sprite.Sprite):
 
         my_font = pygame.font.SysFont('Comic Sans MS', 50, bold=True)
         text_surface = my_font.render('GAME OVER', True, (255, 0, 0))  # rouge
-        text_rect = text_surface.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
-        screen.blit(text_surface, text_rect)
+        text_rect = text_surface.get_rect(center=(SCREEN.get_width() // 2, SCREEN.get_height() // 2))
+        SCREEN.blit(text_surface, text_rect)
         pygame.display.update()
         pygame.time.delay(2000)
 
@@ -97,15 +97,15 @@ class Pacman(pygame.sprite.Sprite):
         self.image = image
         self.power_mode = False
 
-    def draw_score(self, screen):
+    def draw_score(self):
         my_font = pygame.font.SysFont('Comic Sans MS', 24, bold=True)
         text_surface = my_font.render(f'Score : {self.score}', True, (255, 255, 255))
-        screen.blit(text_surface, (5, 10))  # Position en haut à gauche
+        SCREEN.blit(text_surface, (5, 10))  # Position en haut à gauche
 
-    def draw_lifes(self, screen):
+    def draw_lifes(self):
         img = IMG_PACMAN_RIGHT_SMALL
         for i in range(self.lifes, 5 + self.lifes * 25, 25):
-            screen.blit(img, (i + 1, 45))
+            SCREEN.blit(img, (i + 1, 45))
 
     # Vérifie la victoire
     def check_win(self, maze):

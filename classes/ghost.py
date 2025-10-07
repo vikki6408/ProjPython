@@ -1,5 +1,9 @@
 import pygame
 import random
+
+from settings import CASE_SIZE, SCREEN
+
+
 class Ghost(pygame.sprite.Sprite):
     def __init__(self, x, y, img, case_size):
         super().__init__()
@@ -44,8 +48,8 @@ class Ghost(pygame.sprite.Sprite):
                     self.rect.topleft = (self.case_size * self.x, self.case_size * self.y)
                     break
 
-    def draw(self, screen, case_size):
-        screen.blit(self.image, (case_size * self.x, case_size * self.y))
+    def draw(self):
+        SCREEN.blit(self.image, (CASE_SIZE * self.x, CASE_SIZE * self.y))
 
 
     def reset(self, x, y, image):
