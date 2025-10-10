@@ -20,8 +20,15 @@ class Ghost(pygame.sprite.Sprite):
         self.scared = False
         self.waiting = False
         self.wait_start_time = 0
+        self.move_delay = 180
+        self.last_move_time = pygame.time.get_ticks()
 
     def move(self, maze):
+        current_time = pygame.time.get_ticks()
+        if current_time - self.last_move_time < self.move_delay:
+            return
+        self.last_move_time = current_time
+
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
         if self.last_dir:

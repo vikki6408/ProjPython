@@ -61,7 +61,7 @@ class Pacman(pygame.sprite.Sprite):
             self.score += 50
 
         # Désactive le mode power après 8 secondes
-        if self.power_mode and pygame.time.get_ticks() - self.power_mode_timer > 8000:
+        if self.power_mode and pygame.time.get_ticks() - self.power_mode_timer > 5000:
             self.power_mode = False
 
         return self.x, self.y

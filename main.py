@@ -11,10 +11,6 @@ clock = pygame.time.Clock()
 count = 1
 start_ticks=pygame.time.get_ticks()
 
-# Vitesse de déplacement (en pixels par seconde)
-PACMAN_SPEED = 100  # Ajustez cette valeur pour Pac-Man
-GHOST_SPEED = 80    # Ajustez cette valeur pour les fantômes
-
 # Temps précédent pour calculer delta_time
 previous_time = pygame.time.get_ticks()
 
@@ -65,17 +61,17 @@ while running:
     seconds = (pygame.time.get_ticks() - start_ticks) / 1000
 
     if count == 1:
-        if seconds > 8:
+        if seconds > 5:
             ghost1.x = 23
             ghost1.y = 12
             count += 1
     if count == 2:
-        if seconds > 17:
+        if seconds > 11:
             ghost3.x = 23
             ghost3.y = 12
             count += 1
     if count == 3:
-        if seconds > 27:
+        if seconds > 17:
             ghost4.x = 23
             ghost4.y = 12
             count += 1
@@ -134,7 +130,14 @@ while running:
 
     # Vérifie si Pacman a gagné
     if pacman.check_win(maze):
-        restart.restart_game(maze)
+        restart.reset_sprites_positions()
+        # Remettre les pellets dans le labyrinthe
+        for i, line in enumerate(maze):
+            for j, case in enumerate(line):
+                if isinstance(case, tile.EatenPellet):
+                    maze[i][j] = tile.Pellet()
+                elif isinstance(case, tile.PowerPellet):
+                    case.color = settings.PELLET_COLOR
 
     # Affiche le score
     pacman.draw_score()
