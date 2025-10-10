@@ -12,12 +12,13 @@ ghostRed_start_x, ghostRed_start_y = 23, 12
 ghostPink_start_x, ghostPink_start_y = 23, 15
 ghostOrange_start_x, ghostOrange_start_y = 25, 15
 
+# Speed ghosts (in milliseconds)
 SPEED_GHOSTS = 170
 
 # Couleurs
 BACKGROUND_COLOR = (1, 28, 40)
 WALL_COLOR = (61, 88, 242)
-PELLET_COLOR = (242, 203, 5)  #235, 245, 0    #F2CB05
+PELLET_COLOR = (242, 203, 5)
 
 RED = (255, 0, 0)
 LIGHT_BLUE = (4, 178, 249)
@@ -41,7 +42,7 @@ IMG_PACMAN_RIGHT_SMALL = pygame.transform.scale(IMG_PACMAN_RIGHT, (CASE_SIZE, CA
 IMG_PACMAN_DOWN_SMALL = pygame.transform.scale(IMG_PACMAN_DOWN, (CASE_SIZE, CASE_SIZE))
 IMG_PACMAN_UP_SMALL = pygame.transform.scale(IMG_PACMAN_UP, (CASE_SIZE, CASE_SIZE))
 
-# Redimension des fantômes
+# Resizing of ghosts
 IMG_GHOSTBLUE_SMALL = pygame.transform.scale(IMG_GHOSTBLUE, (CASE_SIZE, CASE_SIZE))
 IMG_GHOSTRED_SMALL = pygame.transform.scale(IMG_GHOSTRED, (CASE_SIZE, CASE_SIZE))
 IMG_GHOSTPINK_SMALL = pygame.transform.scale(IMG_GHOSTPINK, (CASE_SIZE, CASE_SIZE))
@@ -49,4 +50,3 @@ IMG_GHOSTORANGE_SMALL = pygame.transform.scale(IMG_GHOSTORANGE, (CASE_SIZE, CASE
 IMG_GHOSTSCARED = pygame.transform.scale(IMG_GHOSTSCARED, (CASE_SIZE, CASE_SIZE))
 
 SCREEN = pygame.display.set_mode((WIDTH * CASE_SIZE, HEIGHT * CASE_SIZE))
-

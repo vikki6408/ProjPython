@@ -1,9 +1,12 @@
 from classes.pacman import *
-from classes.tile import *
 from classes.ghost import *
 import settings
 
-class Restart():
+# Different form of restarting the game
+# 1. Reset positions of sprites after losing a life
+# 2. Restart the game after losing all lives
+
+class Restart:
     def __init__(self, ghost1, ghost2, ghost3, ghost4, pacman):
         self.ghosts = [ghost1, ghost2, ghost3, ghost4]
         self.pacman = pacman
@@ -27,7 +30,7 @@ class Restart():
         count = 0
         start_ticks = pygame.time.get_ticks()
 
-         # Remettre les pellets dans le labyrinthe
+         # Put the pellet back in the maze
         for i, line in enumerate(maze):
             for j, case in enumerate(line):
                 if isinstance(case, tile.EatenPellet):

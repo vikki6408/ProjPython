@@ -3,6 +3,7 @@ import random
 import classes.tile as tile
 from settings import CASE_SIZE, SCREEN, SPEED_GHOSTS
 
+# Class for the ghosts
 class Ghost(pygame.sprite.Sprite):
     def __init__(self, x, y, img, case_size):
         super().__init__()
@@ -43,7 +44,7 @@ class Ghost(pygame.sprite.Sprite):
                 self.last_dir = (dx, dy)
                 break
 
-        # Effet portail
+        # Portal effect
         if isinstance(maze[self.y][self.x], tile.Portal):
             portals = [(y, x) for y, line in enumerate(maze) for x, case in enumerate(line) if
                        isinstance(case, tile.Portal)]
@@ -55,7 +56,6 @@ class Ghost(pygame.sprite.Sprite):
 
     def draw(self):
         SCREEN.blit(self.image, (CASE_SIZE * self.x, CASE_SIZE * self.y))
-
 
     def reset(self, x, y, image):
         self.x = x

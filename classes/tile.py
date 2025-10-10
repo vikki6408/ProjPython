@@ -1,6 +1,7 @@
 import settings
 import pygame
 
+# Class for different types of tiles in the maze
 class Tile:
     def draw(self, x, y):
         pygame.draw.rect(settings.SCREEN, self.color,
@@ -26,6 +27,7 @@ class Pellet(Tile):
             (x * settings.CASE_SIZE + center, y * settings.CASE_SIZE + center),
             4
         )
+
 class PowerPellet(Tile):
     def __init__(self):
         self.color = settings.PELLET_COLOR
@@ -38,6 +40,7 @@ class PowerPellet(Tile):
             (x * settings.CASE_SIZE + center, y * settings.CASE_SIZE + center),
             9
         )
+
 class Portal(Tile):
     def __init__(self):
         self.color = settings.BACKGROUND_COLOR

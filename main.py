@@ -3,27 +3,25 @@ from classes.ghost import *
 from classes.pacman import *
 from classes.tile import *
 from settings import *
-# pygame setup
 
+# pygame setup
 pygame.init()
 pygame.display.set_caption("Pac-Man")
-clock = pygame.time.Clock()
-count = 1
-start_ticks=pygame.time.get_ticks()
 
-# Temps précédent pour calculer delta_time
+# Pygame clock
+clock = pygame.time.Clock()
+start_ticks=pygame.time.get_ticks()
 previous_time = pygame.time.get_ticks()
 
-running = True
-
+# Initialisation of sprites
 ghost1 = Ghost(ghostBlue_start_x, ghostBlue_start_y, IMG_GHOSTBLUE_SMALL, CASE_SIZE)
 ghost2 = Ghost(ghostRed_start_x, ghostRed_start_y, IMG_GHOSTRED_SMALL, CASE_SIZE)
 ghost3 = Ghost(ghostPink_start_x, ghostPink_start_y, IMG_GHOSTPINK_SMALL, CASE_SIZE)
 ghost4 = Ghost(ghostOrange_start_x, ghostOrange_start_y, IMG_GHOSTORANGE_SMALL, CASE_SIZE)
-
 pacman = Pacman(pacman_x, pacman_y, IMG_PACMAN_RIGHT_SMALL, CASE_SIZE)
+restart = Restart(ghost1, ghost2, ghost3, ghost4, pacman)
 
-# Création des fantômes
+# variable
 ghosts = [
     ghost1,
     ghost2,
@@ -31,9 +29,10 @@ ghosts = [
     ghost4
 ]
 
-restart = Restart(ghost1, ghost2, ghost3, ghost4, pacman)
+count = 1
+running = True
 
-# Labyrinthe (1 = mur, 0 = chemin, 2 = porte des fantômes)
+# Maze
 maze = []
 with open("assets/maze.txt", "r", encoding="utf-8") as f:
     for line in f:
@@ -51,15 +50,17 @@ with open("assets/maze.txt", "r", encoding="utf-8") as f:
                 maze_line.append(tile.Portal())
         maze.append(maze_line)
 
-# Boucle principale
+# Main loop
 while running:
-
+    # Event management
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
     seconds = (pygame.time.get_ticks() - start_ticks) / 1000
+    SCREEN.fill(BACKGROUND_COLOR)
 
+    # Ghost outing
     if count == 1:
         if seconds > 5:
             ghost1.x = 23
@@ -76,12 +77,12 @@ while running:
             ghost4.y = 12
             count += 1
 
-    SCREEN.fill(BACKGROUND_COLOR)
+
     for y, line in enumerate(maze):
         for x, case in enumerate(line):
             case.draw(x, y)
 
-    # Met les fantômes en mode effrayé si Pacman est en mode power ou les réinitialise si plus
+    # Ghost scared, pacman mode power
     if pacman.power_mode:
         for ghost in ghosts:
             ghost.scared = True
@@ -98,14 +99,13 @@ while running:
                 ghost.image = IMG_GHOSTORANGE_SMALL
             ghost.scared = False
 
-    # Affichage des sprites
+    # Moving sprites
     pacman.move(maze)
     for ghost in ghosts:
         ghost.move(maze)
-        ghost.update_waiting() # Met à jour l'état d'attente du fantôme
+        ghost.update_waiting()
         if pacman.x == ghost.x and pacman.y == ghost.y:
             if ghost.scared and pacman.power_mode:
-                # Pacman mange le fantôme, le renvoie à sa position de départ
                 pacman.score += 200
                 ghost.start_waiting()
                 ghost.scared = False
@@ -118,20 +118,20 @@ while running:
                     pacman.lifes -= 1
                     pacman.draw_lifes()
                     restart.reset_sprites_positions()
-
-                    # reset le compteur et les secondes pour les fantômes
                     count = 1
                     start_ticks = pygame.time.get_ticks()
 
-    # Dessine Pacman et les fantômes
+    # Displaying sprites
     pacman.draw()
     for ghost in ghosts:
         ghost.draw()
 
-    # Vérifie si Pacman a gagné
+    # Check win
     if pacman.check_win(maze):
         restart.reset_sprites_positions()
-        # Remettre les pellets dans le labyrinthe
+        count = 1
+        start_ticks = pygame.time.get_ticks()
+        # Put the pellets back in the maze
         for i, line in enumerate(maze):
             for j, case in enumerate(line):
                 if isinstance(case, tile.EatenPellet):
@@ -139,13 +139,14 @@ while running:
                 elif isinstance(case, tile.PowerPellet):
                     case.color = settings.PELLET_COLOR
 
-    # Affiche le score
+    # Draw score and lifes
     pacman.draw_score()
     pacman.draw_lifes()
 
-    # Actualise l'affichage
+    # Refresh the display
     pygame.display.flip()
 
-    # Vitesse de la boucle
+    # Loop speed
     clock.tick(6)
+
 pygame.quit()
