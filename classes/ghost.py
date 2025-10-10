@@ -1,8 +1,7 @@
 import pygame
 import random
 import classes.tile as tile
-from settings import CASE_SIZE, SCREEN
-
+from settings import CASE_SIZE, SCREEN, SPEED_GHOSTS
 
 class Ghost(pygame.sprite.Sprite):
     def __init__(self, x, y, img, case_size):
@@ -20,7 +19,7 @@ class Ghost(pygame.sprite.Sprite):
         self.scared = False
         self.waiting = False
         self.wait_start_time = 0
-        self.move_delay = 180
+        self.move_delay = SPEED_GHOSTS
         self.last_move_time = pygame.time.get_ticks()
 
     def move(self, maze):
